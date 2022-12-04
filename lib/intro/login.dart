@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LogIn extends StatefulWidget {
@@ -10,15 +13,23 @@ class _LogInState extends State<LogIn> {
   final mailController = TextEditingController();
   final passController = TextEditingController();
 
+  Future<bool> signIn() async {
+    if (mailController.text == "" || passController.text == "") {
+      return false;
+    }
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: mailController.text.trim(),
+      password: passController.text.trim(),
+    );
+    return true;
+  }
+
   @override
   void dispose() {
     mailController.dispose();
     passController.dispose();
     super.dispose();
   }
-
-  String mail = "";
-  String pass = "";
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +65,19 @@ class _LogInState extends State<LogIn> {
 
               Column(
                 children: <Widget>[
-                  //email
+                  //email input
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
                       color: Colors.grey[500],
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const TextField(
+
+                    //input
+                    child: TextField(
+                      controller: mailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                         hintText: "email",
@@ -82,10 +96,13 @@ class _LogInState extends State<LogIn> {
                       color: Colors.grey[500],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const TextField(
+
+                    //input
+                    child: TextField(
+                      controller: passController,
                       keyboardType: TextInputType.text,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                         hintText: "password",
@@ -103,7 +120,9 @@ class _LogInState extends State<LogIn> {
               Column(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      signIn();
+                    },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 24),
                       padding: const EdgeInsets.symmetric(vertical: 24),
