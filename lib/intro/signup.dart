@@ -1,38 +1,51 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class LogIn extends StatefulWidget {
+class SignUp extends StatefulWidget {
   final VoidCallback toggle;
-  const LogIn({super.key, required this.toggle});
+  const SignUp({super.key, required this.toggle});
+
   @override
-  State<LogIn> createState() => _LogInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LogInState extends State<LogIn> {
+class _SignUpState extends State<SignUp> {
   final mailController = TextEditingController();
   final passController = TextEditingController();
+  final confirmController = TextEditingController();
 
-  Future<bool> signIn() async {
-    if (mailController.text == "" || passController.text == "") {
-      return false;
+  Future<void> signUp() async {
+    if (validate()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: mailController.text.trim(),
+        password: passController.text.trim(),
+      );
     }
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: mailController.text.trim(),
-      password: passController.text.trim(),
-    );
-    return true;
+  }
+
+  bool validate() {
+    // if (mailController.text == "" || passController.text == "") {
+    //   return false;
+    // }
+    if (confirmController.text == passController.text) {
+      return true;
+    }
+    return false;
   }
 
   @override
   void dispose() {
     mailController.dispose();
     passController.dispose();
+    confirmController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -46,15 +59,15 @@ class _LogInState extends State<LogIn> {
                 children: const <Widget>[
                   Icon(Icons.android_rounded, size: 80),
                   Text(
-                    "Hello again!",
+                    "Hello There!",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 10),
                   Text(
-                    "Welcome back, you have been missed!",
+                    "Create your Account",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -86,7 +99,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
 
                   //password input
                   Container(
@@ -112,6 +125,33 @@ class _LogInState extends State<LogIn> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 10),
+
+                  //confirm input
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[500],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+
+                    //input
+                    child: TextField(
+                      controller: confirmController,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                        hintText: "confirm password",
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
                 ],
               ),
 
@@ -120,7 +160,7 @@ class _LogInState extends State<LogIn> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      signIn();
+                      signUp();
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -131,7 +171,7 @@ class _LogInState extends State<LogIn> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Sign In",
+                          "Create Account",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -145,10 +185,11 @@ class _LogInState extends State<LogIn> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text("New member?"),
+                      const Text("Already member?"),
                       TextButton(
-                          onPressed: () => widget.toggle(),
-                          child: const Text("Sign up"))
+                        onPressed: () => widget.toggle(),
+                        child: const Text("Sign In"),
+                      )
                     ],
                   )
                 ],
