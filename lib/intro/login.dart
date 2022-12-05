@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/intro/resetPass.dart';
 
 class LogIn extends StatefulWidget {
   final VoidCallback toggle;
@@ -61,7 +62,6 @@ class _LogInState extends State<LogIn> {
                   ),
                 ],
               ),
-
               Column(
                 children: <Widget>[
                   //email input
@@ -71,7 +71,6 @@ class _LogInState extends State<LogIn> {
                       color: Colors.grey[500],
                       borderRadius: BorderRadius.circular(8),
                     ),
-
                     //input
                     child: TextField(
                       controller: mailController,
@@ -114,10 +113,23 @@ class _LogInState extends State<LogIn> {
                   ),
                 ],
               ),
-
-              //submit button
               Column(
                 children: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ResetPass(),
+                        ),
+                      );
+                    },
+                    child: const Text("Forget Password?"),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  //sign in button
                   GestureDetector(
                     onTap: () {
                       signIn();

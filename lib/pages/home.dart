@@ -8,22 +8,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 100,
+        elevation: 0,
+        title: Text("${user.email}"),
+        actions: [
+          IconButton(
+              onPressed: () => FirebaseAuth.instance.signOut(),
+              icon: const Icon(Icons.logout_rounded))
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Signed In As ${user.email}"),
             const SizedBox(height: 24),
-            MaterialButton(
-              color: Colors.deepPurple,
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              child: const Text(
-                "Sign out",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
           ],
         ),
       ),
