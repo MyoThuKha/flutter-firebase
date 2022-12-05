@@ -87,6 +87,7 @@ class _SignUpState extends State<SignUp> {
 
                     //input
                     child: TextField(
+                      style: const TextStyle(color: Colors.white),
                       controller: mailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
@@ -111,6 +112,7 @@ class _SignUpState extends State<SignUp> {
 
                     //input
                     child: TextField(
+                      style: const TextStyle(color: Colors.white),
                       controller: passController,
                       keyboardType: TextInputType.text,
                       obscureText: true,
@@ -138,6 +140,7 @@ class _SignUpState extends State<SignUp> {
 
                     //input
                     child: TextField(
+                      style: const TextStyle(color: Colors.white),
                       controller: confirmController,
                       keyboardType: TextInputType.text,
                       obscureText: true,

@@ -73,6 +73,7 @@ class _LogInState extends State<LogIn> {
                     ),
                     //input
                     child: TextField(
+                      style: const TextStyle(color: Colors.white),
                       controller: mailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
@@ -97,6 +98,7 @@ class _LogInState extends State<LogIn> {
 
                     //input
                     child: TextField(
+                      style: const TextStyle(color: Colors.white),
                       controller: passController,
                       keyboardType: TextInputType.text,
                       obscureText: true,
