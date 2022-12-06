@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/intro/auth.dart';
+import 'package:flutter_firebase/intro/profile.dart';
 import 'package:flutter_firebase/menu.dart';
 
 void main() async {
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.deepPurple,
         ),
+        routes: {
+          "/profile": (context) => const ProfilePage(),
+        },
         home: Scaffold(
           body: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),

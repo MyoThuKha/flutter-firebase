@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -24,10 +23,19 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  void goToProfile() async {
+    if (validate()) {
+      Navigator.pushNamed(context, "/profile", arguments: {
+        'mail': mailController.text.trim(),
+        'password': passController.text.trim(),
+      });
+    }
+  }
+
   bool validate() {
-    // if (mailController.text == "" || passController.text == "") {
-    //   return false;
-    // }
+    if (mailController.text == "" || passController.text == "") {
+      return false;
+    }
     if (confirmController.text == passController.text) {
       return true;
     }
@@ -67,7 +75,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Create your Account",
+                    "Let's prepare your Account",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -163,7 +171,8 @@ class _SignUpState extends State<SignUp> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      signUp();
+                      // signUp();
+                      goToProfile();
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -174,7 +183,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       child: const Center(
                         child: Text(
-                          "Create Account",
+                          "Next Step",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
